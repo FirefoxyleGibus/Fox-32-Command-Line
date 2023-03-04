@@ -23,6 +23,12 @@ def ChangeCurDIR(curDir, params):
     print(f"Changing current directory to \"{curDir.content[params[1]].GetFuturePath()}\"\n")
     return curDir.content[params[1]]
 
+def TypeFile(curDir, params):
+    """Types the content of a file in the shell"""
+    curDir.content[params[1]].TypeContent()
+    print()
+    return curDir
+
 def Help(curDir, params):
     """Shows all commands and describes them"""
     print("Showing help :")
@@ -38,4 +44,5 @@ commands = {"DIR":DIRCommand,
             "RD":RemoveDIR,
             "CHDIR":ChangeCurDIR,
             "CD":ChangeCurDIR,
+            "TYPE":TypeFile,
             "HELP":Help}
