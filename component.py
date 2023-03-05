@@ -59,11 +59,11 @@ class Directory(MainFileClass):
         return self.content[list(self.content.keys())[self.counter]]
     
 
-    def AddDir(self, name):
+    def AddDir(self, name, dt = datetime.now()):
         """Add a folder to this folder
         
         returns the created folder"""
-        self.content[name] = Directory(self.GetFuturePath(), name, self)
+        self.content[name] = Directory(self.GetFuturePath(), name, self, dt)
         return self.content[name]
     
     def RemoveDir(self, name):

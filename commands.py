@@ -23,6 +23,22 @@ def ChangeCurDIR(curDir, params):
     print(f"Changing current directory to \"{curDir.content[params[1]].GetFuturePath()}\"\n")
     return curDir.content[params[1]]
 
+def AddFile(curDir, params):
+    """Add a file to the current directory"""
+    print(f"Adding file \"{params[1]}\" to \"{curDir.GetFuturePath()}\"\n")
+    match (params[1].split(".")[1].upper()):
+        case "TXT":
+            TextFile("", params[1], "").PutFileOnDir(curDir)
+        case _:
+            File("", params[1], "").PutFileOnDir(curDir)
+    return curDir
+
+def DeleteFile(curDir, params):
+    """Delete the file from the current directory"""
+    print(f"Deleting \"{params[1]}\" from \"{curDir.GetFuturePath()}\"\n")
+    del curDir.content[params[1]]
+    return curDir
+
 def TypeFile(curDir, params):
     """Types the content of a file in the shell"""
     curDir.content[params[1]].TypeContent()
@@ -34,7 +50,7 @@ def Help(curDir, params):
     print("Showing help :")
     for i in commands.keys():
         print(f"{i:<10} : {commands[i].__doc__}")
-    print()
+    print(f'{"EXIT":<10} : Exits the shell\n')
     return curDir
 
 commands = {"DIR":DIRCommand,
@@ -44,5 +60,7 @@ commands = {"DIR":DIRCommand,
             "RD":RemoveDIR,
             "CHDIR":ChangeCurDIR,
             "CD":ChangeCurDIR,
+            "ADD":AddFile,
+            "DEL":DeleteFile,
             "TYPE":TypeFile,
             "HELP":Help}
