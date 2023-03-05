@@ -8,29 +8,39 @@ def DIRCommand(curDir, *params):
 
 def AddDIR(curDir, params):
     """Adds a directory to the current directory"""
-    print(f"Adding folder \"{params[1]}\" to \"{curDir.GetFuturePath()}\"\n")
-    curDir.AddDir(params[1])
+    folders = " ".join(params[1:]).replace("/", "\\")
+    vitDir = curDir
+    for folder in folders.split("\\"):
+        vitDir.AddDir(folder)
+        vitDir = vitDir.content[folder]
+    print(f"Adding folder \"{folders}\" to \"{curDir.GetFuturePath()}\"\n")
     return curDir
 
 def RemoveDIR(curDir, params):
     """Removes a directory to the current directory"""
-    print(f"Removing folder \"{params[1]}\" from \"{curDir.GetFuturePath()}\"\n")
-    curDir.RemoveDir(params[1])
+    folderName = " ".join(params[1:])
+    print(f"Removing folder \"{folderName}\" from \"{curDir.GetFuturePath()}\"\n")
+    curDir.RemoveDir(folderName)
     return curDir
 
 def ChangeCurDIR(curDir, params):
     """Changes the current directory"""
-    print(f"Changing current directory to \"{curDir.content[params[1]].GetFuturePath()}\"\n")
-    return curDir.content[params[1]]
+    path = " ".join(params[1:]).replace("/", "\\")
+    newDir = curDir
+    for folder in path.split("\\"):
+        newDir = newDir.content[folder]
+    print(f"Changing current directory to \"{newDir.GetFuturePath()}\"\n")
+    return newDir
 
 def AddFile(curDir, params):
     """Add a file to the current directory"""
-    print(f"Adding file \"{params[1]}\" to \"{curDir.GetFuturePath()}\"\n")
-    match (params[1].split(".")[1].upper()):
+    fileName = " ".join(params[1:])
+    print(f"Adding file \"{fileName}\" to \"{curDir.GetFuturePath()}\"\n")
+    match (fileName.split(".")[1].upper()):
         case "TXT":
-            TextFile("", params[1], "").PutFileOnDir(curDir)
+            TextFile("", fileName, "").PutFileOnDir(curDir)
         case _:
-            File("", params[1], "").PutFileOnDir(curDir)
+            File("", fileName, "").PutFileOnDir(curDir)
     return curDir
 
 def DeleteFile(curDir, params):
