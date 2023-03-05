@@ -1,5 +1,16 @@
 from component import *
 
+def IsPathValid(curDir, path):
+    vitDir = curDir
+    try:
+        for folder in path.split("\\"):
+            vitDir = vitDir.content[folder]
+        return True
+    except KeyError:
+        return False
+
+# TODO : Clean the code with class
+
 def DIRCommand(curDir, *params):
     """Shows the content of a directory"""
     curDir.GetDirContent()
@@ -19,18 +30,26 @@ def AddDIR(curDir, params):
 def RemoveDIR(curDir, params):
     """Removes a directory to the current directory"""
     folderName = " ".join(params[1:])
-    print(f"Removing folder \"{folderName}\" from \"{curDir.GetFuturePath()}\"\n")
-    curDir.RemoveDir(folderName)
+    if (IsPathValid(curDir, folderName)):
+        print(f"Removing folder \"{folderName}\" from \"{curDir.GetFuturePath()}\"\n")
+        curDir.RemoveDir(folderName)
+    else:
+        print(f"Folder \"{folderName}\" doesn't exist !\n")
     return curDir
 
 def ChangeCurDIR(curDir, params):
     """Changes the current directory"""
     path = " ".join(params[1:]).replace("/", "\\")
-    newDir = curDir
-    for folder in path.split("\\"):
-        newDir = newDir.content[folder]
-    print(f"Changing current directory to \"{newDir.GetFuturePath()}\"\n")
-    return newDir
+    if (IsPathValid(curDir, path)):
+        newDir = curDir
+        for folder in path.split("\\"):
+            newDir = newDir.content[folder]
+        print(f"Changing current directory to \"{newDir.GetFuturePath()}\"\n")
+        return newDir
+    else:
+        print(f"Requested directory doesn't exist !\n")
+        return curDir
+        
 
 def AddFile(curDir, params):
     """Add a file to the current directory"""

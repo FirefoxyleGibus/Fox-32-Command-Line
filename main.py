@@ -19,6 +19,10 @@ def GeneratePrompt(content):
         if (pourcent):
             if (letter == 'p'):
                 out += curpath.GetFuturePath()
+            elif (letter == 'd'):
+                out += f"{datetime.now().day:02}/{datetime.now().month:02}/{datetime.now().year:04}"
+            elif (letter == 't'):
+                out += f"{datetime.now().hour:02}:{datetime.now().minute:02}"
             elif (letter == '%'):
                 out += '%'
             pourcent = False
