@@ -51,7 +51,15 @@ def DeleteFile(curDir, params):
 
 def TypeFile(curDir, params):
     """Types the content of a file in the shell"""
-    curDir.content[params[1]].TypeContent()
+    fileName = " ".join(params[1:])
+    curDir.content[fileName].TypeContent()
+    print()
+    return curDir
+
+def RunFile(curDir, params):
+    """Executes the file"""
+    fileName = " ".join(params[1:])
+    curDir.content[fileName].ExecuteFunction()
     print()
     return curDir
 
@@ -73,4 +81,7 @@ commands = {"DIR":DIRCommand,
             "ADD":AddFile,
             "DEL":DeleteFile,
             "TYPE":TypeFile,
+            "RUN":RunFile,
             "HELP":Help}
+
+programs = {}

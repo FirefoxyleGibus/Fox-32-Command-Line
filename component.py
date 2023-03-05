@@ -5,12 +5,12 @@ class MainFileClass():
     Can either be a file or a folder
     Only used as a parent class"""
     
-    def __init__(self, p, n, d, s = 0):
+    def __init__(self, p, n, d, s = 0, dt = datetime.now()):
         self.path = p
         self.name = n
         self.isDir = d
         self.__size__ = s
-        self.timestamp = datetime.now()
+        self.timestamp = dt
 
     def GetFilePath(self):
         """Get the path of this file"""
@@ -38,14 +38,10 @@ class Directory(MainFileClass):
     
     def __init__(self, p, n, par = None, dt = datetime.now()):
         self.parent = par
-        self.path = p
-        self.name = n
-        self.isDir = True
-        self.size = 0
+        super().__init__(p, n, True, 0, dt)
         self.content = {}
         if (self.parent != None):
             self.content[".."] = self.parent
-        self.timestamp = dt
         self.counter = -1
     
     def __iter__(self):
@@ -91,14 +87,8 @@ class Disk(Directory):
     Works like a directory but with extra stuff"""
     
     def __init__(self, n, fulln, sn, dt = datetime.now()):
-        self.path = ""
-        self.name = n
+        super().__init__("", n, None, dt)
         self.fullName = fulln
-        self.isDir = True
-        self.size = 0
-        self.content = {}
-        self.timestamp = dt
-        self.counter = -1
         self.serialNumber = sn
     
     def GetDiskInfo(self):
@@ -116,11 +106,7 @@ class File(MainFileClass):
     Used as a parent class for other filetype"""
 
     def __init__(self, p, n, s, dt = datetime.now()):
-        self.path = p
-        self.name = n
-        self.isDir = False
-        self.__size__ = s
-        self.timestamp = dt
+        super().__init__(p, n, False, s, dt)
     
     def PutFileOnDir(self, direct):
         """Put this file on a folder
@@ -135,12 +121,8 @@ class TextFile(File):
     Contains text"""
     
     def __init__(self, p, n, c = "", s = 0, dt = datetime.now()):
-        self.path = p
-        self.name = n
-        self.isDir = False
+        super().__init__(p, n, s, dt)
         self.content = c
-        self.timestamp = dt
-        self.__size__ = 0
         self.RecalculateSize()
 
     def RecalculateSize(self):
@@ -155,10 +137,21 @@ class TextFile(File):
     def TypeContent(self):
         """Types the content to the shell"""
         print(f"Content of {self.name} :\n{self.content}")
+
+class ProgramFile(File):
+    """A program file
+    Contains a program that can be executed"""
+    
+    def __init__(self, p, n, func, s, dt = datetime.now()):
+        super().__init__(p, n, s, dt)
+        self.function = func
+    
+    def ExecuteFunction(self, *params):
+        return self.function(params)
  
 if __name__ == "__main__":
     print("Running debug on \"component.py\"\n")
-    DiskA = Directory("","A:")
+    DiskA = Disk("A:","Main","FF45-01a4")
     UserDir = DiskA.AddDir("USERS")
     ProgDir = DiskA.AddDir("PROGRAMS")
     UserDir.AddDir("TEST")
