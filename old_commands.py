@@ -8,6 +8,7 @@ def IsPathValid(curDir, path):
         return True
     except KeyError:
         return False
+    
 
 # TODO : Clean the code with class
 

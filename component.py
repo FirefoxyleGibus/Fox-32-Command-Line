@@ -75,12 +75,13 @@ class Directory(MainFileClass):
 
     def GetDirContent(self):
         """Types the content of the dir on the shell"""
-        print(f"Showing DIR for path \"{self.GetFuturePath()}\"")
+        output = f"Showing DIR for path \"{self.GetFuturePath()}\""
         for file in self:
             if (file == self.parent):
-                print(file.GetDirString(True))
+                output += file.GetDirString(True) + "\n"
             else:
-                print(file.GetDirString())
+                output += file.GetDirString() + "\n"
+        return output
 
 class Disk(Directory):
     """A disk
@@ -97,9 +98,10 @@ class Disk(Directory):
     
     def GetDirContent(self):
         """Types the content of the disk on the shell"""
-        print(self.GetDiskInfo())
+        out = self.GetDiskInfo() + "\n"
         for file in self:
-            print(file.GetDirString())
+            out += file.GetDirString() + "\n"
+        return out
 
 class File(MainFileClass):
     """A simple file
