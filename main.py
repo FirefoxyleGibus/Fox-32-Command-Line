@@ -1,5 +1,5 @@
 from component import Disk,Directory,File,TextFile, ProgramFile
-from commands import *
+from commands.handler import *
 from datetime import datetime
 
 DiskA = Disk("A:","Main","FF45-01a4", datetime(day=4, month=3, year=2023, hour=21, minute=38))
