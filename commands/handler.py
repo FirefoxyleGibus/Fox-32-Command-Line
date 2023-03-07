@@ -17,9 +17,9 @@ def RunCommand(name : str, curDir : Directory, params: list[str]) -> Directory:
             return newCurDir
         # err checking
         except InvalidParameterException as err:
-            print(f"[ERROR] {err}")
+            print(f"[ERROR] {err}\n")
         except MissingParameterException as err:
-            print(f"[ERROR] {err}")
+            print(f"[ERROR] {err}\n")
             
     return curDir
 

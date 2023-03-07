@@ -11,11 +11,12 @@ class HelpClass(Command):
             if params[0] == "/?":
                 return curDir, self.fullHelp()
         output = "Showing help ! Use /? after a command to get more info.\n"
-        maxComLen = 0
+        maxComLen = 4
         for com in _commands.keys():
             maxComLen = max(len(com), maxComLen)
         for com in _commands.keys():
             output += f"{com:<{maxComLen}} : {_commands[com].help()}\n"
+        output += "{0:<{1}} : Exits the shell\n".format("EXIT", maxComLen)
         return curDir, output
     
     def IsNameValid(self, curDir, name):

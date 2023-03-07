@@ -166,7 +166,7 @@ class TextFile(File):
 
     def TypeContent(self):
         """Types the content to the shell"""
-        print(f"Content of {self.name} :\n{self.content}")
+        return f"Content of {self.name} :\n{self.content}\n"
 
 class ProgramFile(File):
     """A program file

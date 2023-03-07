@@ -3,16 +3,16 @@ from commands.command import Command
 
 class ChangeDirectory(Command):
     def __init__(self):
-        super().__init__(['cd'])
+        super().__init__(['chdir','cd'])
 
     def run(self, curDir, params):
         if len(params) < 0:
-            raise MissingParameterException("Missing parameter, see 'MKDIR /?' for usage")
+            raise MissingParameterException("Missing parameter, see 'CHDIR /?' for usage")
 
         toNavigateTo = curDir.ResolvePath(' '.join(params).replace('/', '\\'))
         if toNavigateTo == None:
             raise InvalidParameterException(f"Directory not found in \"{curDir.GetFuturePath()}\"\n")
-        return toNavigateTo, f"Moved to {toNavigateTo.GetFuturePath()}"
+        return toNavigateTo, f"Changing current directory to \"{toNavigateTo.GetFuturePath()}\"\n"
     
     def help(self) -> str:
         return 'Move to another directory from the current directory'
@@ -20,6 +20,7 @@ class ChangeDirectory(Command):
     def fullHelp(self) -> str:
         return """Move to another directory from the current directory
 
+CHDIR {path}
 CD {path}
 
 Example:

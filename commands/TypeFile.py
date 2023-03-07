@@ -17,10 +17,10 @@ class TypeFile(Command):
     def fullHelp(self) -> str:
         return """Types the content of a file in the shell
 
-Type [filename]
+TYPE {filename}
 
 Example:
-    Type test.text - Print the content of test.txt in the shell
+    Type test.txt - Print the content of test.txt in the shell
 """
     
 _type = TypeFile()

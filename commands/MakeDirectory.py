@@ -38,4 +38,4 @@ Example:
     MKDIR AAA\\BBB - Will create the directory AAA with a directory BBB inside
 """
     
-_md = MakeDirectory([])
+_md = MakeDirectory(["",".",".."])

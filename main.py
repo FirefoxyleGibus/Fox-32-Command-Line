@@ -11,7 +11,7 @@ TextFile("","LOG.TXT","""04/03/2023 : Added LOG file !
 06/03/2023 : Optimizing the shell""", 0, datetime(day=4, month=3, year=2023, hour=21, minute=38)).PutFileOnDir(DiskA.content["PROGRAMS"])
 ProgramFile("", "TEST.CLEXE", lambda *params : print("Test function !"), 10).PutFileOnDir(DiskA.content["PROGRAMS"])
 curpath = DiskA
-prompt = "%P > "
+prompt = "%d | %P > "
 
 def GeneratePrompt(content):
     out = ""
@@ -20,6 +20,10 @@ def GeneratePrompt(content):
         if (pourcent):
             if (letter == 'p'):
                 out += curpath.GetFuturePath()
+            elif (letter == 'd'):
+                out += f"{datetime.now().day:02}/{datetime.now().month:02}/{datetime.now().year:04}"
+            elif (letter == 't'):
+                out += f"{datetime.now().hour:02}:{datetime.now().minute:02}"
             elif (letter == '%'):
                 out += '%'
             pourcent = False
