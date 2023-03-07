@@ -54,6 +54,34 @@ class Directory(MainFileClass):
             raise StopIteration
         return self.content[list(self.content.keys())[self.counter]]
     
+    def ResolvePath(self, path: str):
+        """Return the found dir or file if it exists
+        else returns None
+        """
+        if len(path) == 0:
+            return self
+
+        # split path
+        path = path.replace("\\", "/")
+        nextDirSlash = path.find('/')
+        nextElement, nextPath = path, ''
+        if nextDirSlash != -1:
+            nextElement = path[:nextDirSlash]
+            nextPath    = path[nextDirSlash+1:]
+
+        # Reserved symbols (current and parent)
+        if nextElement == '..':
+            return self.parent.ResolvePath(nextPath)
+        if nextElement == '.':
+            return self.ResolvePath(nextPath)
+        
+        # search in directory
+        for element in self:
+            if element.name == nextElement:
+                if isinstance(element, Directory):
+                    return element.ResolvePath(nextPath)
+                return None
+        return None                
 
     def AddDir(self, name, dt = datetime.now()):
         """Add a folder to this folder
@@ -75,7 +103,7 @@ class Directory(MainFileClass):
 
     def GetDirContent(self):
         """Types the content of the dir on the shell"""
-        output = f"Showing DIR for path \"{self.GetFuturePath()}\""
+        output = f"Showing DIR for path \"{self.GetFuturePath()}\"\n"
         for file in self:
             if (file == self.parent):
                 output += file.GetDirString(True) + "\n"

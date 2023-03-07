@@ -10,7 +10,7 @@ class HelpClass(Command):
         if len(params) > 0:
             if params[0] == "/?":
                 return curDir, self.fullHelp()
-        output = "Showing help ! Use /? after a command to get more info."
+        output = "Showing help ! Use /? after a command to get more info.\n"
         maxComLen = 0
         for com in _commands.keys():
             maxComLen = max(len(com), maxComLen)

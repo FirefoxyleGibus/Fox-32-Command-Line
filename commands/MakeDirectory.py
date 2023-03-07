@@ -1,4 +1,4 @@
-from commands.exception import InvalidParameterException
+from commands.exception import MissingParameterException
 from commands.command import *
 
 class MakeDirectory(Command):
@@ -7,13 +7,15 @@ class MakeDirectory(Command):
         self.illegalNames = illegalName.copy()
 
     def run(self, curDir, params):
-        if params[0] == "/?":
-            return curDir, self.fullHelp()
+        if len(params) < 0:
+            raise MissingParameterException("Missing parameter, see 'MKDIR /?' for usage")
+
         folders = " ".join(params).replace("/", "\\")
         if (self.IsNameValid(curDir, folders)):
             vitDir = curDir
             for folder in folders.split("\\"):
-                vitDir.AddDir(folder)
+                if not folder in vitDir.content:
+                    vitDir.AddDir(folder)
                 vitDir = vitDir.content[folder]
             return curDir, f"Adding folder \"{folders}\" to \"{curDir.GetFuturePath()}\"\n"
         else:

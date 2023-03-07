@@ -5,11 +5,13 @@ class DirCommand(Command):
     def __init__(self):
         super().__init__(['dir'])
 
-    def run(self, curDir, params):
+    def run(self, curDir : Directory, params):
+        toList = curDir
         if len(params) > 0:
-            if params[0] == "/?":
-                return curDir, self.fullHelp()
-        return curDir, curDir.GetDirContent()
+            toList = curDir.ResolvePath(params[0])
+        if toList == None:
+            raise InvalidParameterException(f"Folder {params[0]} doesn't exist")
+        return curDir, toList.GetDirContent()
     
     def help(self) -> str:
         return 'Displays a list of files and subdirectories in a directory.'
@@ -27,4 +29,4 @@ Example:
     def __str__(self):
         return super().__str__() + " [path]: List content of current dir\n" + "- [path] (optionnal) path to the directory to list"
 
-_registered = DirCommand()
+_dir = DirCommand()

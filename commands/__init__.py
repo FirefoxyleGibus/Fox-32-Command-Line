@@ -4,36 +4,24 @@ Commands module
 
 Loads every commands found in this directory into `_commands`
 
-Usage:
+Usage: 
+* Import the handler
+    from commands.handler import *
+* You have now access to these functions:
     RunCommand(name: str, params : list[str])
     AvailableCommandNames() -> list[str]
     IsCommandAvailable(name : str) -> bool
 
 """
-from component import Directory
-from commands.exception import InvalidParameterException
 
+# Contains all loaded/registered commands
 _commands = {}
 
-def RunCommand(name : str, curPath : str, params: list[str]) -> Directory:
-    name = name.upper()
-    if IsCommandAvailable(name):
-        try:
-            newCurDir, response = _commands[name].run(curPath, params[1:])
-            print(response)
-            return newCurDir
-        except InvalidParameterException as err:
-            print(f"[ERROR] {err}")
-    return curPath
-
-def AvailableCommands() -> list[str]:
-    return _commands.keys()
-
-def IsCommandAvailable(name : str) -> bool:
-    return name in _commands.keys()
-
-
 def _load():
+    """ 
+        Do not class or import 
+        Load the content of this dir and import them
+    """
     import os, importlib
     commands_path = f"{os.curdir}/commands"
     for file in os.listdir(commands_path):
@@ -43,4 +31,5 @@ def _load():
             print(f"[DEBUG] Loading : {p}")
             mod = importlib.import_module(f"commands.{p}")
 
+# load
 _load()
